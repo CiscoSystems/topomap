@@ -30,7 +30,6 @@ import subprocess
 import socket
 import sys
 
-from configobj import ConfigObj
 from socket import gethostname
 
 from db.topomap_db import TopomapDB as db
@@ -65,14 +64,23 @@ class Topodict(object):
 
 class Topomap(object):
     def __init__(self, conf, **kwargs):
-        self.conf = ConfigObj(conf.config, raise_errors=True,
-                              file_error=True)
+        self.conf = conf
         self.topodict = Topodict()
         self.providers = self.conf['AGENT']['providers']
         self.interfaces = self.conf['AGENT']['int_prefixes']
         self.db = db(self.conf['DATABASE'])
-        logging.basicConfig(filename=self.conf['LOG']['file'],
-                            level=logging.DEBUG)
+
+        loglevel = logging.WARNING
+        if self.conf['LOG']['level']:
+            if self.conf['LOG']['level'] == 'debug':
+                loglevel = logging.DEBUG
+            elif self.conf['LOG']['level'] == 'info':
+                loglevel = logging.INFO
+
+        logging.basicConfig(
+            filename=self.conf['LOG']['file'],
+            format='%(asctime)s %(process)d %(levelname)s %(message)s',
+            level=loglevel)
 
         self.int_checks = []
         # Precompile all regexes for interface checks
@@ -80,13 +88,13 @@ class Topomap(object):
             pattern = re.compile(interface)
             self.int_checks.append(pattern)
         
-        logging.debug("Loaded interface checks")
+        logging.info("Loaded interface checks")
         self.plugins = []
         # Import all provider plugins
         for provider in self.providers:
             plugin = _import_module(provider)
             self.plugins.append(plugin)
-        logging.debug("Loaded plugins")
+            logging.info("Loaded plugin %s" % provider)
 
     def reload_conf(self):
         pass
@@ -126,10 +134,9 @@ class Topomap(object):
             self.update_db()
 
     def scan(self):
-        logging.debug("Starting daemon")
         # Main process loop
         while True:
-            logging.debug("Scanning")
+            logging.info("Scanning")
             self.get_provider_neighbors()
             time.sleep(int(self.conf['AGENT']['polling_interval']))
 
