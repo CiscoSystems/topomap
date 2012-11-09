@@ -139,11 +139,13 @@ class Topomap(object):
             time.sleep(int(self.conf['AGENT']['polling_interval']))
 
     def update_db(self):
-        topodict = self.topodict.topodict
+        # Create a single session for all transactions
+        self.db._get_session()
 
+        topodict = self.topodict.topodict
         # Get local hostname 
         hostname = gethostname()
-        # Delete all connections for this host
+        # Delete all existing connections for this host
         self.db.delete_all_device_connections(hostname)
 
         # Check if this host exists in the DB
@@ -190,3 +192,6 @@ class Topomap(object):
             # Create connection row
             logging.debug("Creating connection")
             self.db.create_device_connection(dport.id, eport.id)
+
+        # Delete the active session
+        self.db._destroy_session()

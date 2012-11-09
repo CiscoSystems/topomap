@@ -70,4 +70,4 @@ class DeviceConnection(Base):
         self.end2 = end2
 
     def __repr__(self):
-        return "<DeviceConnection('%d', '%d')>" % (self.end1, self.end2)
+        return "<DeviceConnection('%d', '%d', '%d')>" % (self.id, self.end1, self.end2)
