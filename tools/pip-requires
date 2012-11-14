@@ -1,6 +1,6 @@
 argparse
 configobj
-daemon
+python-daemon
 lockfile
 logging
 netifaces
