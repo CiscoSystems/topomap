@@ -92,6 +92,8 @@ class TopomapDB(object):
     def get_all_device_connections(self, device_name):
         connections = []
         device = self.get_device(device_name)
+        if len(device) == 0:
+            return []
         device_ports = self.get_all_device_ports(device.id)
 
         for row in device_ports:
