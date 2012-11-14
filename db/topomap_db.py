@@ -109,3 +109,4 @@ class TopomapDB(object):
         connections = self.get_all_device_connections(device_name)
         for connection in connections:
             self._get_session().delete(connection)
+        self._get_session().commit()
