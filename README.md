@@ -18,27 +18,27 @@ Configuration
 =============
 The configuration file is located in etc/topomap.ini. The following options are supported:
 
-[AGENT]
-# Polling interval in seconds
-polling_interval = 10
-# Specify interface prefixes to search on
-int_prefixes = eth,en
-# Specify providers
-providers = topomap.providers.lldp.LLDP,
-# Specify location of the pid file
-pidfile = /var/run/topomap.pid
-# Specify run directory
-rundir = /opt/stack/topomap
+    [AGENT]
+    # Polling interval in seconds
+    polling_interval = 10
+    # Specify interface prefixes to search on
+    int_prefixes = eth,en
+    # Specify providers
+    providers = topomap.providers.lldp.LLDP,
+    # Specify location of the pid file
+    pidfile = /var/run/topomap.pid
+    # Specify run directory
+    rundir = /opt/stack/topomap
 
-[DATABASE]
-# Specify DB connection string
-sql_connection = mysql://root:nova@localhost/topomap?charset=utf8
+    [DATABASE]
+    # Specify DB connection string
+    sql_connection = mysql://root:nova@localhost/topomap?charset=utf8
 
-[LOG]
-# Log level Default: WARNING
-level = debug
-# Log file
-file = /var/log/topomap.log
+    [LOG]
+    # Log level Default: WARNING
+    level = debug
+    # Log file
+    file = /var/log/topomap.log
 
 Running the agent
 =================
