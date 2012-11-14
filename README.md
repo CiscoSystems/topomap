@@ -40,6 +40,13 @@ The configuration file is located in etc/topomap.ini. The following options are 
     # Log file
     file = /var/log/topomap.log
 
+Dependencies
+============
+All library requirements are listed under tools/pip-requires. 
+To use the lldp provider you need the linux package lldpd installed
+
+    $ apt-get install lldpd
+
 Running the agent
 =================
 To run the agent run bin/topomap. Use bin/topomap -h to find out the various options supported by the agent. The agent can run in blocking agent mode or a background daemon mode. To use the daemon mode specify the -d options when starting the agent.
