@@ -1,7 +1,7 @@
-argparse
-configobj
-python-daemon
-lockfile
-logging
-netifaces
-sqlalchemy
+argparse==1.2.1
+configobj==4.7.2
+python-daemon==1.6
+lockfile==0.9.1
+logging==0.4.9.6
+netifaces==0.8
+sqlalchemy==0.7.9
